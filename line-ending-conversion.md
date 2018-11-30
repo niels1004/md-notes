@@ -9,7 +9,7 @@ The idea is to start by making sure that all text file in the working tree have 
 6) Squash the two commits
 
 ## Implementation
-Add line `* text=auto` at the top of .gitattributes and run commands (1)
+Add line `* text=auto` at the top of .gitattributes (1)
 ```
 ## 2) Commit all files with normalized line endings.
 # Stage files with normalized line ending to index
