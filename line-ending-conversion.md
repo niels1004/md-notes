@@ -8,6 +8,10 @@ The idea is to start by making sure that all text file in the working tree have 
 5) Commit normalization configuration and all files with CRLF line endings
 6) Squash the two commits
 
+The files are first normalized because git will not do LF -> CRLF transformation
+on files with mixed line endings on checkout. On the other hand, it will gladly
+normalize files with mixed line endings.
+
 ## Implementation
 Add line `* text=auto` at the top of .gitattributes (1)
 ```
