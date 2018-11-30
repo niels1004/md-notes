@@ -1,5 +1,5 @@
 ## Outline
-The idea is to start by making sure that all text file in the working tree have consistent CRLF line endings. This can be accomplished by exploiting git's line endings normalization functionality. Then disable normalization and commit all files with CRLF line endings. This involves the following steps:
+The idea is to start by making sure that all text file in the working tree have consistent CRLF line endings. This can be accomplished by exploiting git's line endings normalization functionality. When all files in the working have CRLF line endings, disable normalization and commit all files with CRLF line endings. This involves the following steps:
 
 1) Enable line ending normalization on repository (update .gitattributes)
 2) Commit all files with normalized line endings.
