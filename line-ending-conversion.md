@@ -22,7 +22,7 @@ git commit -m "Enabled line ending normalization and renormalized line endings"
 # Delete all tracked files from working directory
 git ls-files -z | xargs -0 rm -f
 
-# Checkout all files from index
+# Checkout all files from index - this will apply the LF -> CRLF transformation
 git checkout-index -a
 
 # Update index
