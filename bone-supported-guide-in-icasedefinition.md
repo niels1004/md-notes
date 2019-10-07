@@ -12,7 +12,7 @@ Cons:
 * Lacks some consistency, i.e. tooth-supported and denture-based guides have same product type while bone-supported has a distinct type.
 
 ## Proposal B
-Deprecate `IsJawEdentulous` and introduce seperate `ProductType` values for denture based guide and bone-supported guide.
+Deprecate `IsJawEdentulous` and introduce separate `ProductType` values for denture based guide and bone-supported guide.
 
 Pros:
 * Models usage more closely. I.e. the practitioner orders a specific treatment, and it is not the software that infers the treatment from described symptoms in combination with a product description.
