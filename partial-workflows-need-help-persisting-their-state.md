@@ -57,7 +57,7 @@ interface IPartialWorkflowContext
     // Existing members omitted...
 
     // 3DD may stop the transaction and request cancellation if the PW takes too long to prepare and write the transaction
-    Task IPartialWorkflowContext.WriteTransactionAsync(Func<IPartialWorkflowContextTransaction, CancellationToken, Task> write);
+    Task WriteTransactionAsync(Func<IPartialWorkflowContextTransaction, CancellationToken, Task> write);
 }
 ```
 
