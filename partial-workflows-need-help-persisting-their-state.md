@@ -3,7 +3,7 @@
 ## Motivation
 Partial workflows (PWs) decide when to persist their state. They have a few
 options:
-1. Write transaction every time persistent state changes
+1. Write transaction every time internal state changes
 2. Persist on certain events. E.g. step deactivated
 
 It can be quite expensive to prepare the serialized state. In this case it is
@@ -15,7 +15,7 @@ prepared on a background thread before executing the `WriteTransaction` call on
 the main thread. This has an inherent race condition though as 3DD may be in the
 process of navigating to a page of a module that disallows output from other
 modules while it is active, e.g. the Order Form. In Splint Design we currently
-have a bug, SP-835, on this because subsequent changes in the Order Form can
+have a bug, SP-835, related to this as subsequent changes in the Order Form can
 effectively destroy the state before it has been persisted.
 
 Unless modules that block output are going to disappear in the near future I
@@ -23,8 +23,8 @@ think Module API should be extended with methods that allow for better
 cooperation between 3DD and PWs during transactions in order to address this
 problem. I think what is needed is a way for the PW to express its intent to
 write a transaction in the near future. In this case 3DD could hold back actions
-that prevent output, such as navigation to modules that disables output from
-other modules, until the intent is fullfilled.
+that prevent output - such as navigation to modules that disables output from
+other modules - until the intent is fullfilled.
 
 ## Proposal
 
@@ -32,7 +32,7 @@ Below I present two alternative API shapes That seems implementable to me.
 
 ### First form
 
-```csharp
+```cs
 class TransactionToken : IDisposable
 {
     // Details omitted
@@ -51,7 +51,7 @@ interface IPartialWorkflowContext
 
 ### Second form
 
-```csharp
+```cs
 interface IPartialWorkflowContext
 {
     // Existing members omitted...
@@ -65,7 +65,7 @@ interface IPartialWorkflowContext
 
 The following module-defined type and methods will be used below:
 
-```csharp
+```cs
 // Represent serialized data that is ready to write in a transaction
 class PreparedData { }
 
@@ -82,7 +82,7 @@ void WriteData(IPartialWorkflowContextTransaction t, PrepareData d)
 
 ### Example using first form
 
-```csharp
+```cs
 using (var token = context.PrepareTransaction())
 {
     var data = await PrepareDataAsync();
@@ -100,7 +100,7 @@ using (var token = context.PrepareTransaction())
 
 ### Example using second form
 
-```csharp
+```cs
 // May throw an OperationCancelledException (or TimeoutException?)
 await context.WriteTransactionAsync(async (t, ct) =>
 {
