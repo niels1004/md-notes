@@ -69,7 +69,7 @@ The following module-defined type and methods will be used below:
 // Represent serialized data that is ready to write in a transaction
 class PreparedData { }
 
-Task<PreparedData> PrepareDataAsync()
+Task<PreparedData> PrepareDataAsync(CancellationToken cancellationToken = default)
 {
     // Produces serialized data ready to be used in the WriteTransaction call
 }
