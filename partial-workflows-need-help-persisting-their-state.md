@@ -74,7 +74,7 @@ Task<PreparedData> PrepareDataAsync()
     // Produces serialized data ready to be used in the WriteTransaction call
 }
 
-void WriteData(IPartialWorkflowContextTransaction t, PrepareData d)
+void WriteData(IPartialWorkflowContextTransaction t, PreparedData d)
 {
     // Writes the prepared data to the the provided transaction instance
 }
