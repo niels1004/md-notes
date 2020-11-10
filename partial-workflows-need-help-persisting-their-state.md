@@ -1,4 +1,4 @@
-# Partial workflows need more help with persisting their state
+# Partial workflows need more help persisting their state
 
 ## Motivation
 Partial workflows (PWs) decide when to persist their state. They have a few
