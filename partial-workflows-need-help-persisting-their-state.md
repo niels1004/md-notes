@@ -33,19 +33,19 @@ Below I present two alternative API shapes That seems implementable to me.
 ### First form
 
 ```cs
-class TransactionToken : IDisposable
+class ITransactionToken : IDisposable
 {
-    // Details omitted
+    CancellationToken CancellationToken { get; }
 }
 
 interface IPartialWorkflowContext
 {
     // Existing members omitted...
 
-    TransactionToken PrepareTransaction();
+    ITransactionToken PrepareTransaction();
 
     // WriteTransaction may throw a TimeoutException if the PW has spent too much time to prepare the state
-    void WriteTransaction(Action<IPartialWorkflowContextTransaction> write, TransactionToken token);
+    void WriteTransaction(Action<IPartialWorkflowContextTransaction> write, ITransactionToken token);
 }
 ```
 
@@ -69,7 +69,7 @@ The following module-defined type and methods will be used below:
 // Represent serialized data that is ready to write in a transaction
 class PreparedData { }
 
-Task<PreparedData> PrepareDataAsync(CancellationToken cancellationToken = default)
+Task<PreparedData> PrepareDataAsync(CancellationToken cancellationToken)
 {
     // Produces serialized data ready to be used in the WriteTransaction call
 }
@@ -85,7 +85,7 @@ void WriteData(IPartialWorkflowContextTransaction t, PreparedData d)
 ```cs
 using (var token = context.PrepareTransaction())
 {
-    var data = await PrepareDataAsync();
+    var data = await PrepareDataAsync(token.CancellationToken);
 
     try
     {
