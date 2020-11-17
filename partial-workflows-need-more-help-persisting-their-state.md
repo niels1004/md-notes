@@ -4,14 +4,14 @@
 Partial workflows (PWs) have the responsibility to request persistance of their
 state. It can be quite expensive to prepare the serialized state so Triart PWs
 don't persist on every change performed by the user. Instead they write the
-state only when it is deemed necessary. This includes when a step is deactivated
+state only when it is deemed necessary. This includes when a step is deactivated,
 and in order to make the transition between steps as smooth as possible and not
 block the UI for noticable periods of time the state is prepared on a
 background thread before executing the `WriteTransaction` call on the main
-thread. This has an inherent race condition though as 3DD may be in the process
+thread. This has an inherent race condition though, as 3DD may be in the process
 of navigating to a page of a module that disallows output from other modules
 while it is active. This is particularly problematic when navigating to the
-Order Form. In Splint Design we currently have a bug, SP-835, related to this as
+Order Form. In Splint Design we currently have a bug, SP-835, related to this, as
 subsequent changes in the Order Form can effectively destroy the state by resulting
 in a call to `SetCaseDefinition` before the state has been persisted.
 
@@ -19,7 +19,7 @@ There are several ways to address this. I propose something like this:
 
 Make it possible for a PW to ensure writability by requesting some token from
 3DD. When any PW has obtained such a token, 3DD should ensure that any valid
-call to `WriteTransaction` will succeed until the token is disposed. E.g. by
+call to `WriteTransaction` will succeed until the token has been disposed. E.g. by
 postponing navigation to Order Form or other module that may be blocking case
 changes. 3DD should also guarantee that `SetCaseDefinition` will not be called
 for PWs which holds a token.
